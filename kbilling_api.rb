@@ -10,7 +10,6 @@ module KBilling
       @api_key = api_key
     end
     
-    
     def connection
       return @connection if @connection
       
@@ -32,7 +31,6 @@ module KBilling
       handle_response response
     end
     
-    
     def handle_response response
       response = ActiveSupport::JSON.decode(response.body)
       
@@ -48,7 +46,8 @@ module KBilling
       self.put "clients/#{client_id}", {:txn => uuid_generate}
     end
     
-    def create_transaction txn_id, params
+    def create_transaction params, txn_id = nil
+      txn_id = uuid_generate unless txn_id
       self.put "txns/#{txn_id}", {:ops => params}
     end
     
